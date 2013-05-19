@@ -1,0 +1,35 @@
+<html>
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="towerDefense.js"> </script>
+
+
+</head>
+
+<body>
+<canvas id="c" width=400px height=400px></canvas>
+
+
+<br><br>
+<table>
+	<tr>
+		<td>Max Particles per explosion</td>
+		<td><input id="maxParticlesPerExplosion" type="number" value="100"/></td>
+	</tr>
+	<tr>
+		<td>Max Particle Size</td>
+		<td><input id="maxParticleSize" type="number" value="10"/></td>
+	</tr>
+	<tr>
+		<td>Spawn enemy every n ticks (20ms ticks)</td>
+		<td><input id="spawningTickCount" type="number" value="100"/></td>
+	</tr>
+
+</table>
+
+<button onclick="Reset()">Apply</button>
+
+</body>
+
+</html>
+
