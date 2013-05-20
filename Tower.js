@@ -2,25 +2,31 @@
 function CreateTower(x, y, type) {
 	if (type == "blank") {
 		return new Blank(x, y);
-	} else if (type == "archer") {
-		return new Archer(x, y);
+	} else if (type == "cannon") {
+		return new Cannon(x, y);
+	} else if (type == "gatlingcannon") {
+		return new GatlingCannon(x, y);
+	} else if (type == "machinegun") {
+		return new MachineGun(x, y);
 	}
 }
 
-// Archer
-function Archer(x, y) {
+function Cannon(x, y) {
 	this.x = x;
 	this.y = y;
 	this.pixX = x*gridSize;
 	this.pixY = y*gridSize;
+	this.color = "brown";
+	this.bulletColor = "brown";
 
 	this.cost = 100;
 	this.rate = 100;
 	this.counter = 0;
+	this.dmg = 1;
 	this.range = 5;
 }
 
-Archer.prototype.update = function() {
+Cannon.prototype.update = function() {
 	this.counter++;
 	if (this.counter == this.rate) {
 		this.counter = 0;
@@ -39,27 +45,26 @@ Archer.prototype.update = function() {
 			}
 		}
 
-
 		if (closestInvader != -1 && closestInvaderDist < this.range) {
-			bullets.push(new Bullet(this.pixX, this.pixY, invaders[closestInvader]));
+			bullets.push(new Bullet(this.pixX, this.pixY, invaders[closestInvader], this.bulletColor, this.dmg));
 		}
 	}
 };
 
-Archer.prototype.render = function() {
+Cannon.prototype.render = function() {
 	// TODO do this only when we hover over the tower
+	/*
 	ctx.strokeStyle =  "rgba(255, 0, 0, .2)";
 	ctx.beginPath();
 	ctx.arc(this.x*gridSize + gridSize/2, this.y*gridSize+gridSize/2, this.range*gridSize, 0, 2 * Math.PI, false);
 	ctx.lineWidth = 1;
 	ctx.stroke();
+	*/
 	
-	ctx.fillStyle = "brown";
+	ctx.fillStyle = this.color;
 	ctx.beginPath();
 	ctx.arc(this.x*gridSize + gridSize/2, this.y*gridSize+gridSize/2, gridSize/2, 0, 2 * Math.PI, false);
 	ctx.fill();
-
-	//ctx.fillRect(this.pixX, this.pixY, gridSize, gridSize);
 };
 
 // Blank
@@ -81,3 +86,42 @@ Blank.prototype.render = function() {
 	ctx.fillStyle = "grey";
 	ctx.fillRect(this.pixX, this.pixY, gridSize, gridSize);
 };
+
+// Machine Gun
+function GatlingCannon(x, y) {
+	this.x = x;
+	this.y = y;
+	this.pixX = x*gridSize;
+	this.pixY = y*gridSize;
+	this.color = "#660033";
+	this.bulletColor = "#660033";
+	this.counter = 0;
+
+	this.cost = 200;
+	this.range = 5;
+	this.rate = 20;
+	this.dmg = 0.25;
+}
+
+GatlingCannon.prototype.update = Cannon.prototype.update;
+GatlingCannon.prototype.render = Cannon.prototype.render;
+
+
+// Machine Gun
+function MachineGun(x, y) {
+	this.x = x;
+	this.y = y;
+	this.pixX = x*gridSize;
+	this.pixY = y*gridSize;
+	this.color = "blue";
+	this.bulletColor = "blue";
+	this.counter = 0;
+
+	this.cost = 400;
+	this.range = 5;
+	this.rate = 10;
+	this.dmg = 0.28;
+}
+
+MachineGun.prototype.update = Cannon.prototype.update;
+MachineGun.prototype.render = Cannon.prototype.render;

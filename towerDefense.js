@@ -41,14 +41,13 @@ var height = 400;
 
 var money = 0;
 
-var currentTower = "archer";
-var currentCost = 100;
 
 function isInMap(x, y) {
 	return !(x < 0 || y < 0 || x >= width || y >= height);
 }
 
 $(document).ready(function() {
+	SelectTower("cannon");
 	canvas = document.getElementById("c");
 	canvas.addEventListener("mousedown", doMouseDown, false);
 	ctx = canvas.getContext("2d");
@@ -61,11 +60,21 @@ $(document).ready(function() {
 
 function SelectTower(type) {
 	currentTower = type;
-	if (type == "archer") {
+	$(".towerSelect").each(function() {this.style.color = "black";});
+	if (type == "cannon") {
+		$("#cannon").each(function() {this.style.color = "blue";});
 		currentCost = 100;
 	} else if (type == "blank") {
-		currentCost = 50;	
+		$("#blank").each(function() {this.style.color = "blue";});
+		currentCost = 50;
+	} else if (type == "gatlingcannon") {
+		$("#gatlingcannon").each(function() {this.style.color = "blue";});
+		currentCost = 200;
+	} else if (type == "machinegun") {
+		$("#machinegun").each(function() {this.style.color = "blue";});
+		currentCost = 400;
 	}
+
 }
 
 function Reset() {
@@ -93,8 +102,8 @@ function Reset() {
 
 var mq = [];
 function doMouseDown(e) {
-	var x = Math.floor((e.clientX - canvas.offsetLeft)/gridSize);
-	var y = Math.floor((e.clientY - canvas.offsetTop)/gridSize);
+	var x = Math.floor((e.pageX - canvas.offsetLeft)/gridSize);
+	var y = Math.floor((e.pageY - canvas.offsetTop)/gridSize);
 	mq.push({x: x, y: y});
 };
 
@@ -193,13 +202,23 @@ function updateAll() {
 	}
 	
 	for (var i = 0; i < bullets.length; i++) {
+		if (bullets[i].target.hp <= 0) {
+			// Target already destroyed. Get rid of the bullet.
+			bullets.splice(i, 1);
+			i--;
+			continue;
+		}
+
 		if (bullets[i].update()) {
 
-			bullets[i].target.hp--;
-			if (!bullets[i].target.hp) {
+			bullets[i].target.hp -= bullets[i].dmg;
+			console.log("Bullet did " + bullets[i].dmg);
+			console.log("Hp left: " + bullets[i].target.hp);
+			if (bullets[i].target.hp <= 0) {
 				bullets[i].target.explode();
 				var invaderIndex = invaders.indexOf(bullets[i].target);
 				AddMoney(invaders[invaderIndex].reward);
+				if (invaderIndex == -1) {continue;}
 				invaders.splice(invaderIndex, 1);
 			}
 			bullets.splice(i, 1);

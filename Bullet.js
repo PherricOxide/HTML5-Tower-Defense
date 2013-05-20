@@ -1,18 +1,20 @@
-function Bullet(x, y, target) {
+function Bullet(x, y, target, color, dmg) {
 	this.x = x;
 	this.y = y;
 	this.target = target;
 	this.dmg = 1;
 	this.size = 4;
+	this.bulletColor = color;
 	
 	this.vel = 5;
 	this.counter = 0;
+	this.dmg = dmg;
 }
 
 Bullet.prototype.explode = function() {
 	var p = Math.random()*(maxParticlesPerExplosion);
 	for (var i = 0; i < p; i++) {
-		particles.push(new Particle(this.x, this.y, Math.floor(Math.random()*this.size + 1), "black"));
+		particles.push(new Particle(this.x, this.y, Math.floor(Math.random()*this.size/2 + 1), this.bulletColor));
 	}
 }
 
@@ -37,7 +39,7 @@ Bullet.prototype.update = function() {
 };
 
 Bullet.prototype.render = function() {
-	ctx.fillStyle = "black";
+	ctx.fillStyle = this.bulletColor;
 	ctx.fillRect(this.x, this.y, this.size, this.size);
 
 	/* Render path to target

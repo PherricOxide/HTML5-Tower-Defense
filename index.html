@@ -23,6 +23,8 @@
 </head>
 
 <body>
+
+<h1> Tower Defense by PherricOxide </h1>
 <canvas id="c" width=400px height=400px style="display: inline-block;"></canvas>
 <div style="display: inline-block; vertical-align: top;">
 
@@ -43,8 +45,49 @@
 
 <br>
 <div>
-	<p class='towerSelect' onclick="SelectTower('blank')"> Road Block </p>
-	<p class='towerSelect' onclick="SelectTower('archer')"> Archer </p>
+	<p class='towerSelect' id="blank" onclick="SelectTower('blank')"> 
+		Road Block <br>
+		&nbsp;&nbsp; Cost: 50
+		&nbsp;&nbsp; Dmg : 0
+		&nbsp;&nbsp; Cooldown: 0
+	</p>
+	<p class='towerSelect' id="cannon" onclick="SelectTower('cannon')"> 
+		Basic Cannon <br>
+		&nbsp;&nbsp; Cost: 100
+		&nbsp;&nbsp; Dmg : 1.0
+		&nbsp;&nbsp; Cooldown: 2,000ms
+	</p>
+	<p class='towerSelect' id="gatlingcannon" onclick="SelectTower('gatlingcannon')"> 
+		Gatling Cannon <br>
+		&nbsp;&nbsp; Cost: 200
+		&nbsp;&nbsp; Dmg : 0.25
+		&nbsp;&nbsp; Cooldown: 400ms
+	</p>
+	<p class='towerSelect' id="machinegun" onclick="SelectTower('machinegun')"> 
+		Machine Gun <br>
+		&nbsp;&nbsp; Cost: 400
+		&nbsp;&nbsp; Dmg : 0.28
+		&nbsp;&nbsp; Cooldown: 200ms
+	</p>
+</div>
+</div>
+
+
+
+<br><br>
+<table>
+	<tr>
+		<td>Max Particles per explosion</td>
+		<td><input id="maxParticlesPerExplosion" type="number" value="100"/></td>
+	</tr>
+	<tr>
+		<td>Max Particle Size</td>
+		<td><input id="maxParticleSize" type="number" value="10"/></td>
+	</tr>
+	<tr>
+		<td>Spawn enemy every n ticks (20ms ticks)</td>
+	</p>
+	<p class='towerSelect' onclick="SelectTower('machinegun')"> Machine Gun </p>
 </div>
 </div>
 
