@@ -27,8 +27,7 @@ function Cannon(x, y) {
 }
 
 Cannon.prototype.update = function() {
-	this.counter++;
-	if (this.counter == this.rate) {
+	if (this.counter == 0) {
 		this.counter = 0;
 
 		var closestInvader = -1;
@@ -47,7 +46,10 @@ Cannon.prototype.update = function() {
 
 		if (closestInvader != -1 && closestInvaderDist < this.range) {
 			bullets.push(new Bullet(this.pixX, this.pixY, invaders[closestInvader], this.bulletColor, this.dmg));
+			this.counter = this.rate;
 		}
+	} else {
+		this.counter--;
 	}
 };
 

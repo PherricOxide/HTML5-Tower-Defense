@@ -15,6 +15,8 @@ function Invader(x, y) {
 	this.velocity = 1;
 	this.counter = 0;
 	this.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+
+	this.angle = Math.PI;
 }
 
 Invader.prototype.setPath = function(path) {
@@ -30,8 +32,14 @@ Invader.prototype.explode = function() {
 };
 
 Invader.prototype.render = function() {
+	ctx.save();
+	ctx.translate(this.pixX + gridSize/2, this.pixY + gridSize/2);
+	ctx.rotate(this.angle);
+	ctx.translate(-1* (this.pixX+ gridSize/2), -1* (this.pixY+gridSize/2));
 	ctx.fillStyle = "red";
 	ctx.fillRect(this.pixX, this.pixY, gridSize, gridSize);
+	ctx.restore();
+	this.angle += Math.PI/100;
 	
 	/* path debugging
 	ctx.fillStyle = "orange";
