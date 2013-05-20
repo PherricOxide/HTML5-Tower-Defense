@@ -3,11 +3,51 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="towerDefense.js"> </script>
 
+<script src="InvaderCreator.js"> </script>
+<script src="Particle.js"> </script>
+<script src="Invader.js"> </script>
+<script src="Bullet.js"> </script>
+<script src="Tower.js"> </script>
+<script src="Base.js"> </script>
+<script src="Util.js"> </script>
+<script src="Map.js"> </script>
+
+<style>
+.towerSelect {
+	margin: 0;
+	padding: 0;
+	color: blue;
+}
+</style>
 
 </head>
 
 <body>
-<canvas id="c" width=400px height=400px></canvas>
+<canvas id="c" width=400px height=400px style="display: inline-block;"></canvas>
+<div style="display: inline-block; vertical-align: top;">
+
+<table>
+	<tr>
+		<td><p>Level</p></td>
+		<td><p id="level">1</p></td>
+	</tr>
+	<tr>
+		<td><p>Money</p></td>
+		<td><p id="money">0</p></td>
+	</tr>
+	<tr>
+		<td><p>HP</p></td>
+		<td><p id="HP">5</p></td>
+	</tr>
+</table>
+
+<br>
+<div>
+	<p class='towerSelect' onclick="SelectTower('blank')"> Road Block </p>
+	<p class='towerSelect' onclick="SelectTower('archer')"> Archer </p>
+</div>
+</div>
+
 
 
 <br><br>
@@ -23,6 +63,10 @@
 	<tr>
 		<td>Spawn enemy every n ticks (20ms ticks)</td>
 		<td><input id="spawningTickCount" type="number" value="100"/></td>
+	</tr>
+	<tr>
+		<td>Enemy HP</td>
+		<td><input id="spawningHP" type="number" value="2"/></td>
 	</tr>
 
 </table>
