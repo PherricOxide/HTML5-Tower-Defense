@@ -59,20 +59,17 @@ Map.prototype.computeShortestPath = function(x1, y1, x2, y2) {
 
 Map.prototype.render = function() {
 	ctx.beginPath();
+	ctx.lineWidth = 1;
+	ctx.strokeStyle = "grey";
 	for (var x = this.gridSize; x < this.width; x += this.gridSize) {
 			ctx.moveTo(x, 0);
 			ctx.lineTo(x, this.height);
-			ctx.lineWidth = 1;
-			ctx.strokeStyle = "grey";
-			ctx.stroke();
 	}
 	
 	for (var y = this.gridSize; y < this.height; y += this.gridSize) {
 			ctx.moveTo(0, y);
 			ctx.lineTo(this.width, y);
-			ctx.lineWidth = 1;
-			ctx.strokeStyle = "grey";
-			ctx.stroke();
 	}
+	ctx.stroke();
 };
 

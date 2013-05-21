@@ -27,7 +27,7 @@
  *
  */
 
-var ctx, canvas;
+var ctx, canvas, ctxFinal, canvasBuffer;
 
 var map, bases, invaders, invaderCreator, particles;
 var towers = [];
@@ -35,9 +35,9 @@ var bullets = [];
 
 var ticker = -1;
 
-var gridSize = 20;
-var width = 400;
-var height = 400;
+var gridSize = 32;
+var width = 640;
+var height = 640;
 
 var money = 0;
 
@@ -50,7 +50,12 @@ $(document).ready(function() {
 	SelectTower("cannon");
 	canvas = document.getElementById("c");
 	canvas.addEventListener("mousedown", doMouseDown, false);
-	ctx = canvas.getContext("2d");
+	ctxFinal = canvas.getContext("2d");
+
+	canvasBuffer = document.createElement("canvas");
+	canvasBuffer.width = width;
+	canvasBuffer.height = height;
+	ctx = canvasBuffer.getContext("2d");
 
 	map = new Map(width, height, gridSize);
 	invaderCreator = new InvaderCreator();
@@ -164,6 +169,11 @@ function mapChanged() {
 
 
 function renderAll() {
+	ctxFinal.save();
+	ctxFinal.setTransform(1,0,0,1,0,0);
+	ctxFinal.clearRect(0, 0, width, height);
+	ctxFinal.restore();
+	
 	ctx.save();
 	ctx.setTransform(1,0,0,1,0,0);
 	ctx.clearRect(0, 0, width, height);
@@ -176,6 +186,8 @@ function renderAll() {
 	for (var i = 0; i < invaders.length; i++) {invaders[i].render()};
 	for (var i = 0; i < particles.length; i++) {particles[i].render()};
 	for (var i = 0; i < bullets.length; i++) {bullets[i].render()};
+
+	ctxFinal.drawImage(canvasBuffer, 0,0);
 }
 
 function updateAll() {

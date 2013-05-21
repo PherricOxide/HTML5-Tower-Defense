@@ -18,17 +18,18 @@ function Cannon(x, y) {
 	this.pixY = y*gridSize;
 	this.color = "brown";
 	this.bulletColor = "brown";
+	this.image = document.getElementById("imageCannon");
+	this.imageMuzzle = document.getElementById("imageCannonMuzzle");
 
 	this.cost = 100;
 	this.rate = 100;
 	this.counter = 0;
 	this.dmg = 1;
 	this.range = 5;
+	this.angle = 0;
 }
 
 Cannon.prototype.update = function() {
-	if (this.counter == 0) {
-		this.counter = 0;
 
 		var closestInvader = -1;
 		var closestInvaderDist = 0;
@@ -44,8 +45,12 @@ Cannon.prototype.update = function() {
 			}
 		}
 
+	if (closestInvader != -1) {
+		this.angle = computeAngle(this.x, invaders[closestInvader].x, this.y, invaders[closestInvader].y);
+	}
+	if (this.counter == 0) {
 		if (closestInvader != -1 && closestInvaderDist < this.range) {
-			bullets.push(new Bullet(this.pixX, this.pixY, invaders[closestInvader], this.bulletColor, this.dmg));
+			bullets.push(new Bullet(this.pixX + gridSize/2, this.pixY + gridSize/2, invaders[closestInvader], this.bulletColor, this.dmg));
 			this.counter = this.rate;
 		}
 	} else {
@@ -63,10 +68,19 @@ Cannon.prototype.render = function() {
 	ctx.stroke();
 	*/
 	
+	/*	
 	ctx.fillStyle = this.color;
 	ctx.beginPath();
 	ctx.arc(this.x*gridSize + gridSize/2, this.y*gridSize+gridSize/2, gridSize/2, 0, 2 * Math.PI, false);
 	ctx.fill();
+	*/
+	ctx.drawImage(this.image, this.x*gridSize, this.y*gridSize);
+	ctx.save();
+	ctx.translate(this.x*gridSize + gridSize/2, this.y*gridSize + gridSize/2);
+	ctx.rotate(this.angle);
+	ctx.translate(-1* (this.x*gridSize+ gridSize/2), -1* (this.y*gridSize+gridSize/2));
+	ctx.drawImage(this.imageMuzzle, this.x*gridSize, this.y*gridSize);
+	ctx.restore();
 };
 
 // Blank
@@ -98,6 +112,8 @@ function GatlingCannon(x, y) {
 	this.color = "#660033";
 	this.bulletColor = "#660033";
 	this.counter = 0;
+	this.image = document.getElementById("imageCannon");
+	this.imageMuzzle = document.getElementById("imageGatlingCannonMuzzle");
 
 	this.cost = 200;
 	this.range = 5;
@@ -118,6 +134,8 @@ function MachineGun(x, y) {
 	this.color = "blue";
 	this.bulletColor = "blue";
 	this.counter = 0;
+	this.image = document.getElementById("imageCannon");
+	this.imageMuzzle = document.getElementById("imageGatlingCannonMuzzle");
 
 	this.cost = 400;
 	this.range = 5;
