@@ -31,23 +31,29 @@ function Cannon(x, y) {
 }
 
 Cannon.prototype.update = function() {
+	var closestInvader = -1;
+	var closestInvaderDist = 0;
+	for (var i = 0; i < invaders.length; i++) {
+		var invader = invaders[i];
 
-		var closestInvader = -1;
-		var closestInvaderDist = 0;
-		for (var i = 0; i < invaders.length; i++) {
-			var invader = invaders[i];
-
-			var dist = distance(this.x, invader.nextX, this.y, invader.nextY);
-			if (closestInvader == -1 || dist < closestInvaderDist) {
-				closestInvaderDist = dist;
-				closestInvader = i;
-				this.targetX = invader.x;
-				this.targetY = invader.y;
-			}
+		var dist = distance(this.x, invader.nextX, this.y, invader.nextY);
+		if (closestInvader == -1 || dist < closestInvaderDist) {
+			closestInvaderDist = dist;
+			closestInvader = i;
+			this.targetX = invader.x;
+			this.targetY = invader.y;
 		}
+	}
 
-	if (closestInvader != -1) {
-		this.angle = computeAngle(this.x, invaders[closestInvader].x, this.y, invaders[closestInvader].y);
+	if (closestInvader != -1 && closestInvaderDist < this.range) {
+		this.angle = computeAngle(
+			gridSize*this.x + gridSize/2, 
+			invaders[closestInvader].pixX + gridSize/2, 
+			gridSize*this.y + gridSize/2, 
+			invaders[closestInvader].pixY+gridSize/2
+		);
+	} else {
+		this.angle = 0;
 	}
 	if (this.counter == 0) {
 		if (closestInvader != -1 && closestInvaderDist < this.range) {
