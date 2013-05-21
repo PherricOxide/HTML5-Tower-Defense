@@ -16,7 +16,6 @@ function Cannon(x, y) {
 	this.y = y;
 	this.pixX = x*gridSize;
 	this.pixY = y*gridSize;
-	this.color = "brown";
 	this.bulletColor = "brown";
 	this.image = document.getElementById("imageCannon");
 	this.imageMuzzle = document.getElementById("imageCannonMuzzle");
@@ -26,7 +25,9 @@ function Cannon(x, y) {
 	this.counter = 0;
 	this.dmg = 1;
 	this.range = 5;
+
 	this.angle = 0;
+	this.desiredAngle = 0;
 }
 
 Cannon.prototype.update = function() {
@@ -69,7 +70,6 @@ Cannon.prototype.render = function() {
 	*/
 	
 	/*	
-	ctx.fillStyle = this.color;
 	ctx.beginPath();
 	ctx.arc(this.x*gridSize + gridSize/2, this.y*gridSize+gridSize/2, gridSize/2, 0, 2 * Math.PI, false);
 	ctx.fill();
@@ -109,7 +109,6 @@ function GatlingCannon(x, y) {
 	this.y = y;
 	this.pixX = x*gridSize;
 	this.pixY = y*gridSize;
-	this.color = "#660033";
 	this.bulletColor = "#660033";
 	this.counter = 0;
 	this.image = document.getElementById("imageCannon");
@@ -119,6 +118,9 @@ function GatlingCannon(x, y) {
 	this.range = 5;
 	this.rate = 20;
 	this.dmg = 0.25;
+	
+	this.angle = 0;
+	this.desiredAngle = 0;
 }
 
 GatlingCannon.prototype.update = Cannon.prototype.update;
@@ -131,7 +133,6 @@ function MachineGun(x, y) {
 	this.y = y;
 	this.pixX = x*gridSize;
 	this.pixY = y*gridSize;
-	this.color = "blue";
 	this.bulletColor = "blue";
 	this.counter = 0;
 	this.image = document.getElementById("imageCannon");

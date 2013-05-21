@@ -224,8 +224,6 @@ function updateAll() {
 		if (bullets[i].update()) {
 
 			bullets[i].target.hp -= bullets[i].dmg;
-			console.log("Bullet did " + bullets[i].dmg);
-			console.log("Hp left: " + bullets[i].target.hp);
 			if (bullets[i].target.hp <= 0) {
 				bullets[i].target.explode();
 				var invaderIndex = invaders.indexOf(bullets[i].target);
