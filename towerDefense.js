@@ -180,9 +180,9 @@ function renderAll() {
 	ctx.restore();
 
 
+	map.render();	
 	for (var i = 0; i < bases.length; i++) {bases[i].render();}
 	for (var i = 0; i < towers.length; i++) {towers[i].render();}
-	map.render();	
 	for (var i = 0; i < invaders.length; i++) {invaders[i].render()};
 	for (var i = 0; i < particles.length; i++) {particles[i].render()};
 	for (var i = 0; i < bullets.length; i++) {bullets[i].render()};

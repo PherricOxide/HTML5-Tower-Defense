@@ -46,15 +46,33 @@ Cannon.prototype.update = function() {
 	}
 
 	if (closestInvader != -1 && closestInvaderDist < this.range) {
-		this.angle = computeAngle(
+		this.desiredAngle = computeAngle(
 			gridSize*this.x + gridSize/2, 
 			invaders[closestInvader].pixX + gridSize/2, 
 			gridSize*this.y + gridSize/2, 
 			invaders[closestInvader].pixY+gridSize/2
 		);
-	} else {
-		this.angle = 0;
 	}
+
+	var rotationRate = Math.PI/50;
+	if (Math.abs(this.angle - this.desiredAngle) > rotationRate) {
+		var d = (this.desiredAngle - this.angle) % (2*Math.PI);
+		if (d < 0) {
+			d = 2*Math.PI + this.angle;
+		}
+		if (d < Math.PI) {
+			this.angle += rotationRate;
+		} else {
+			this.angle -= rotationRate;
+		}
+
+		this.angle = this.angle % (2*Math.PI);
+		if (this.angle < 0) {
+			this.angle = 2*Math.PI + this.angle;
+		}
+
+	}
+	
 	if (this.counter == 0) {
 		if (closestInvader != -1 && closestInvaderDist < this.range) {
 			bullets.push(new Bullet(this.pixX + gridSize/2, this.pixY + gridSize/2, invaders[closestInvader], this.bulletColor, this.dmg));
@@ -122,8 +140,8 @@ function GatlingCannon(x, y) {
 
 	this.cost = 200;
 	this.range = 5;
-	this.rate = 20;
-	this.dmg = 0.25;
+	this.rate = 100;
+	this.dmg = 2;
 	
 	this.angle = 0;
 	this.desiredAngle = 0;
@@ -142,12 +160,15 @@ function MachineGun(x, y) {
 	this.bulletColor = "blue";
 	this.counter = 0;
 	this.image = document.getElementById("imageCannon");
-	this.imageMuzzle = document.getElementById("imageGatlingCannonMuzzle");
+	this.imageMuzzle = document.getElementById("imageMachineGunMuzzle");
 
 	this.cost = 400;
 	this.range = 5;
 	this.rate = 10;
 	this.dmg = 0.28;
+	
+	this.angle = 0;
+	this.desiredAngle = 0;
 }
 
 MachineGun.prototype.update = Cannon.prototype.update;
