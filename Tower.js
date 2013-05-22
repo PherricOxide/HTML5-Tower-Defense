@@ -75,7 +75,7 @@ Cannon.prototype.update = function() {
 	
 	if (this.counter == 0) {
 		if (closestInvader != -1 && closestInvaderDist < this.range) {
-			bullets.push(new Bullet(this.pixX + gridSize/2, this.pixY + gridSize/2, invaders[closestInvader], this.bulletColor, this.dmg));
+			bullets.push(new Bullet(this.pixX + gridSize/2, this.pixY + gridSize/2, invaders[closestInvader], invaders[closestInvader].color, this.dmg));
 			this.counter = this.rate;
 		}
 	} else {
@@ -84,20 +84,6 @@ Cannon.prototype.update = function() {
 };
 
 Cannon.prototype.render = function() {
-	// TODO do this only when we hover over the tower
-	/*
-	ctx.strokeStyle =  "rgba(255, 0, 0, .2)";
-	ctx.beginPath();
-	ctx.arc(this.x*gridSize + gridSize/2, this.y*gridSize+gridSize/2, this.range*gridSize, 0, 2 * Math.PI, false);
-	ctx.lineWidth = 1;
-	ctx.stroke();
-	*/
-	
-	/*	
-	ctx.beginPath();
-	ctx.arc(this.x*gridSize + gridSize/2, this.y*gridSize+gridSize/2, gridSize/2, 0, 2 * Math.PI, false);
-	ctx.fill();
-	*/
 	ctx.drawImage(this.image, this.x*gridSize, this.y*gridSize);
 	ctx.save();
 	ctx.translate(this.x*gridSize + gridSize/2, this.y*gridSize + gridSize/2);

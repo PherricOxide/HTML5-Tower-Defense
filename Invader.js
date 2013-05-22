@@ -12,6 +12,11 @@ function Invader(x, y) {
 
 	this.path = [];
 
+	this.spinRate = 0;
+	this.angle = 0;
+	this.image = document.getElementById("enemy1");
+
+	this.color = "red";
 	this.velocity = 1;
 	this.counter = 0;
 	this.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
@@ -25,14 +30,18 @@ Invader.prototype.setPath = function(path) {
 Invader.prototype.explode = function() {
 	var p = Math.random()*maxParticlesPerExplosion;
 	for (var i = 0; i < p; i++) {
-		particles.push(new Particle(this.x*gridSize, this.y*gridSize, Math.floor(Math.random()*maxParticleSize + 1), "red"));
+		particles.push(new Particle(this.x*gridSize, this.y*gridSize, Math.floor(Math.random()*maxParticleSize + 1), this.color));
 	}
 	
 };
 
 Invader.prototype.render = function() {
-	ctx.fillStyle = "red";
-	ctx.fillRect(this.pixX, this.pixY, gridSize, gridSize);
+	ctx.save();
+	ctx.translate(this.pixX+ gridSize/2, this.pixY + gridSize/2);
+	ctx.rotate(this.angle);
+	ctx.translate(-1* (this.pixX+ gridSize/2), -1* (this.pixY+gridSize/2));
+	ctx.drawImage(this.image, this.pixX, this.pixY);
+	ctx.restore();
 	
 	/* path debugging
 	ctx.fillStyle = "orange";
@@ -47,6 +56,11 @@ Invader.prototype.render = function() {
 
 Invader.prototype.update = function() {
 	this.counter++;
+
+	this.angle += this.spinRate;
+	if (this.angle > 2*Math.PI) {
+		this.angle = 2*Math.PI + this.angle;
+	}
 
 	if (this.counter == gridSize) {
 		this.counter = 0;

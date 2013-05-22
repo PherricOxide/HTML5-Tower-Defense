@@ -41,6 +41,8 @@ var height = 640;
 
 var money = 0;
 
+var lastMouseLocation = {x: 0, y: 0};
+var mouseInCanvas = false;
 
 function isInMap(x, y) {
 	return !(x < 0 || y < 0 || x >= width || y >= height);
@@ -52,6 +54,18 @@ $(document).ready(function() {
 	canvas.addEventListener("mousedown", doMouseDown, false);
 	ctxFinal = canvas.getContext("2d");
 
+	canvas.onmousemove = function(e) {
+		var x = Math.floor((e.pageX - canvas.offsetLeft)/gridSize);
+		var y = Math.floor((e.pageY - canvas.offsetTop)/gridSize);
+		lastMouseLocation = {x: x, y: y};
+		mouseInCanvas = true;
+	}
+
+	$("#c").mouseleave(function() {
+		lastMouseLocation = {x: 0, y: 0};
+		mouseInCanvas = false;
+	});
+
 	canvasBuffer = document.createElement("canvas");
 	canvasBuffer.width = width;
 	canvasBuffer.height = height;
@@ -59,7 +73,7 @@ $(document).ready(function() {
 
 	map = new Map(width, height, gridSize);
 	invaderCreator = new InvaderCreator();
-	AddMoney(280);
+	AddMoney(200);
 	Reset();
 });
 
@@ -81,6 +95,7 @@ function SelectTower(type) {
 	}
 
 }
+
 
 function Reset() {
 	maxParticlesPerExplosion = document.getElementById("maxParticlesPerExplosion").value;
@@ -181,6 +196,28 @@ function renderAll() {
 
 
 	map.render();	
+
+
+	if (mouseInCanvas) {
+		if (map.grid[lastMouseLocation.x][lastMouseLocation.y]) {
+			ctx.strokeStyle =  "rgba(255, 0, 0, .8)";
+		} else {
+			ctx.strokeStyle =  "rgba(0, 255, 0, .8)";
+		}
+		
+		ctx.beginPath();
+		ctx.arc(lastMouseLocation.x*gridSize + gridSize/2, lastMouseLocation.y*gridSize+gridSize/2, 5*gridSize, 0, 2 * Math.PI, false);
+		ctx.lineWidth = 1;
+		ctx.stroke();
+		
+		if (map.grid[lastMouseLocation.x][lastMouseLocation.y]) {
+			ctx.fillStyle =  "rgba(255, 0, 0, .2)";
+		} else {
+			ctx.fillStyle =  "rgba(0, 255, 0, .2)";
+		}
+		ctx.fillRect(lastMouseLocation.x*gridSize, lastMouseLocation.y*gridSize, gridSize, gridSize);
+
+	}
 	for (var i = 0; i < bases.length; i++) {bases[i].render();}
 	for (var i = 0; i < towers.length; i++) {towers[i].render();}
 	for (var i = 0; i < invaders.length; i++) {invaders[i].render()};
@@ -227,8 +264,9 @@ function updateAll() {
 			if (bullets[i].target.hp <= 0) {
 				bullets[i].target.explode();
 				var invaderIndex = invaders.indexOf(bullets[i].target);
-				AddMoney(invaders[invaderIndex].reward);
 				if (invaderIndex == -1) {continue;}
+
+				AddMoney(invaders[invaderIndex].reward);
 				invaders.splice(invaderIndex, 1);
 			}
 			bullets.splice(i, 1);
