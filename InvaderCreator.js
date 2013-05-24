@@ -27,15 +27,15 @@ InvaderCreator.prototype.update = function() {
 			invader.color = "green";
 			invader.spinRate = 0;
 			invader.spinRate = Math.PI/100;
-		} else if (this.level > 20) {
+		} else if (this.level > 15) {
 			invader.image = document.getElementById("enemy3");
 			invader.color = "purple";
 			invader.spinRate = 0;
-		} else if (this.level > 15) {
+		} else if (this.level > 10) {
 			invader.image = document.getElementById("enemy2");
 			invader.color = "blue";
 			invader.spinRate = Math.PI/100;
-		} else if (this.level > 10) {
+		} else if (this.level > 5) {
 			invader.image = document.getElementById("enemy1");
 			invader.color = "red";
 			invader.spinRate = Math.PI/100;

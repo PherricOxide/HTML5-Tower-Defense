@@ -11,26 +11,20 @@ function CreateTower(x, y, type) {
 	}
 }
 
-function Cannon(x, y) {
+
+function Tower(x, y) {
 	this.x = x;
 	this.y = y;
 	this.pixX = x*gridSize;
 	this.pixY = y*gridSize;
-	this.bulletColor = "brown";
-	this.image = document.getElementById("imageCannon");
-	this.imageMuzzle = document.getElementById("imageCannonMuzzle");
-
-	this.cost = 100;
-	this.rate = 100;
+	
 	this.counter = 0;
-	this.dmg = 1;
-	this.range = 5;
-
+	
 	this.angle = 0;
 	this.desiredAngle = 0;
 }
 
-Cannon.prototype.update = function() {
+Tower.prototype.update = function() {
 	var closestInvader = -1;
 	var closestInvaderDist = 0;
 	for (var i = 0; i < invaders.length; i++) {
@@ -83,7 +77,7 @@ Cannon.prototype.update = function() {
 	}
 };
 
-Cannon.prototype.render = function() {
+Tower.prototype.render = function() {
 	ctx.drawImage(this.image, this.x*gridSize, this.y*gridSize);
 	ctx.save();
 	ctx.translate(this.x*gridSize + gridSize/2, this.y*gridSize + gridSize/2);
@@ -113,49 +107,46 @@ Blank.prototype.render = function() {
 	ctx.fillRect(this.pixX, this.pixY, gridSize, gridSize);
 };
 
+// Cannon
+function Cannon(x, y) {
+	Tower.apply(this, [x,y]);
+	this.bulletColor = "brown";
+	this.image = document.getElementById("imageCannon");
+	this.imageMuzzle = document.getElementById("imageCannonMuzzle");
+
+	this.cost = 100;
+	this.rate = 100;
+	this.range = 5;
+	this.dmg = 1;
+}
+Cannon.prototype = new Tower();
+
 // Machine Gun
 function GatlingCannon(x, y) {
-	this.x = x;
-	this.y = y;
-	this.pixX = x*gridSize;
-	this.pixY = y*gridSize;
+	Tower.apply(this, [x,y]);
 	this.bulletColor = "#660033";
-	this.counter = 0;
 	this.image = document.getElementById("imageCannon");
 	this.imageMuzzle = document.getElementById("imageGatlingCannonMuzzle");
 
 	this.cost = 200;
+	this.rate = 45;
 	this.range = 5;
-	this.rate = 100;
-	this.dmg = 2;
-	
-	this.angle = 0;
-	this.desiredAngle = 0;
+	this.dmg = 1;	
 }
-
-GatlingCannon.prototype.update = Cannon.prototype.update;
-GatlingCannon.prototype.render = Cannon.prototype.render;
+GatlingCannon.prototype = new Tower();
 
 
 // Machine Gun
 function MachineGun(x, y) {
-	this.x = x;
-	this.y = y;
-	this.pixX = x*gridSize;
-	this.pixY = y*gridSize;
+	Tower.apply(this, [x,y]);
 	this.bulletColor = "blue";
-	this.counter = 0;
 	this.image = document.getElementById("imageCannon");
 	this.imageMuzzle = document.getElementById("imageMachineGunMuzzle");
 
 	this.cost = 400;
+	this.rate = 20;
 	this.range = 5;
-	this.rate = 10;
-	this.dmg = 0.28;
-	
-	this.angle = 0;
-	this.desiredAngle = 0;
+	this.dmg = 1;
 }
+MachineGun.prototype = new Tower();
 
-MachineGun.prototype.update = Cannon.prototype.update;
-MachineGun.prototype.render = Cannon.prototype.render;
