@@ -69,7 +69,7 @@ Tower.prototype.update = function() {
 	
 	if (this.counter == 0) {
 		if (closestInvader != -1 && closestInvaderDist < this.range) {
-			bullets.push(new Bullet(this.pixX + gridSize/2, this.pixY + gridSize/2, invaders[closestInvader], invaders[closestInvader].color, this.dmg));
+			bullets.push(new Bullet(this.pixX + gridSize/2, this.pixY + gridSize/2, invaders[closestInvader], invaders[closestInvader].bulletColor, this.dmg));
 			this.counter = this.rate;
 		}
 	} else {
@@ -85,6 +85,14 @@ Tower.prototype.render = function() {
 	ctx.translate(-1* (this.x*gridSize+ gridSize/2), -1* (this.y*gridSize+gridSize/2));
 	ctx.drawImage(this.imageMuzzle, this.x*gridSize, this.y*gridSize);
 	ctx.restore();
+};
+
+Tower.prototype.explode = function() {
+	var p = Math.random()*maxParticlesPerExplosion;
+	for (var i = 0; i < p; i++) {
+		particles.push(new Particle(this.x*gridSize, this.y*gridSize, Math.floor(Math.random()*maxParticleSize + 1), this.bulletColor));
+	}
+	
 };
 
 // Blank

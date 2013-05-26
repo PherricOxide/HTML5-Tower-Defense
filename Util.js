@@ -12,3 +12,22 @@ function computeAngle(x1, x2, y1, y2)
 		a = 2*Math.PI - a;
 	return a;
 }
+
+
+function adjacent(p1, p2) {
+	if (p1.x == p2.x) {
+		if (p1.y == p2.y + 1 || p1.y == p2.y - 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	if (p1.y == p2.y) {
+		if (p1.x == p2.x + 1 || p1.x == p2.x -1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}

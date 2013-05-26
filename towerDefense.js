@@ -177,6 +177,9 @@ function handleMouseEvents() {
 function mapChanged() {
 	for (var i = 0; i < invaders.length; i++) {
 		var newPath = map.computeShortestPath(invaders[i].nextX, invaders[i].nextY, bases[0].x, bases[0].y);
+		if (invaders[i].earlyExploder) {
+			map.computePathNeighbors(newPath);
+		}
 		invaders[i].setPath(newPath);
 	}
 
@@ -229,6 +232,8 @@ function renderAll() {
 
 function updateAll() {
 	var gameOver = false;
+	var callMapChanged = false;
+
 	for (var i = 0; i < bases.length; i++) {
 		bases[i].update();
 		if (bases[i].hp <= 0) {
@@ -275,7 +280,27 @@ function updateAll() {
 		}
 	};
 	if (!gameOver) {
-		for (var i = 0; i < invaders.length; i++) {invaders[i].update()};
+		for (var i = 0; i < invaders.length; i++) {
+			invaders[i].update();
+
+			if (invaders[i].earlyExploder && invaders[i].x == invaders[i].explodeAt.x && invaders[i].y == invaders[i].explodeAt.y) {
+				invaders[i].explode();
+
+				// Explode the towers
+				for (var t = 0; t < towers.length; t++) {
+					if (adjacent({x: towers[t].x, y: towers[t].y}, invaders[i].explodeAt)) {
+						map.grid[towers[t].x][towers[t].y] = false;
+						towers.splice(t, 1);
+						t--;
+					}
+				}
+
+				invaders.splice(i, 1);
+				i--;
+
+				callMapChanged = true;
+			}
+		};
 	}
 	for (var i = 0; i < particles.length; i++) {
 		particles[i].update();
@@ -286,6 +311,8 @@ function updateAll() {
 
 
 	};
+
+	if (callMapChanged) {mapChanged();}
 
 	checkHits();
 }

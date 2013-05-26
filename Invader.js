@@ -21,6 +21,10 @@ function Invader(x, y) {
 	this.counter = 0;
 	this.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 
+	// Only used for the early exploders, maybe split it off somewhere else
+	this.earlyExploder = false;
+	this.explodeAt = {};
+
 }
 
 Invader.prototype.setPath = function(path) {

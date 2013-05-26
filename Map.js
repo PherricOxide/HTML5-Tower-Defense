@@ -13,6 +13,32 @@ function Map(width, height, gridSize) {
 	}
 }
 
+// Tacks on to the path objects a count of neighboring towers
+Map.prototype.computePathNeighbors = function(path) {
+	for (var i = 0; i < path.length; i++) {
+		var q = [];
+		var c = path[i];
+		q.push({x: c.x + 1 , y: c.y     });
+		q.push({x: c.x	   , y: c.y + 1 });
+		q.push({x: c.x - 1 , y: c.y     });
+		q.push({x: c.x	   , y: c.y - 1 });
+
+		var neighbors = 0;
+		for(var j = 0; j < q.length; j++) {
+			var s = q[j];
+			if (s.x < 0 || s.x >= this.width/gridSize || s.y < 0 || s.y >= this.height/gridSize) {
+				continue;
+			}
+
+			if (this.grid[s.x][s.y]) {
+				neighbors++;
+			}
+		}
+
+		path[i].neighbors = neighbors;
+	}
+}
+
 Map.prototype.computeShortestPath = function(x1, y1, x2, y2) {
 	var q = [];
 	var qi = 0;
