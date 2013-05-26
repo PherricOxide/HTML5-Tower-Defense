@@ -36,7 +36,7 @@ InvaderCreator.prototype.update = function() {
 			}
 				
 			invader.image = document.getElementById("enemy5");
-			invader.color = "brown";
+			invader.color = "blue";
 			invader.spinRate = Math.PI/20;
 
 
@@ -45,14 +45,17 @@ InvaderCreator.prototype.update = function() {
 				invader.image = document.getElementById("enemy4");
 				invader.color = "green";
 				invader.spinRate = Math.PI/100;
+				invader.reward += 10;
 			} else if (this.level > 15) {
 				invader.image = document.getElementById("enemy3");
 				invader.color = "purple";
 				invader.spinRate = 0;
+				invader.reward += 10;
 			} else if (this.level > 10) {
 				invader.image = document.getElementById("enemy2");
 				invader.color = "blue";
 				invader.spinRate = Math.PI/100;
+				invader.reward += 10;
 			} else if (this.level > 5) {
 				invader.image = document.getElementById("enemy1");
 				invader.color = "red";
