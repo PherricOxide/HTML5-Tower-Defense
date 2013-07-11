@@ -3,6 +3,7 @@ function Invader(x, y) {
 	this.x = x;
 	this.y = y;
 	this.hp = 2;
+	this.originalHp = 2;
 	this.reward = 20;
 	this.nextX = x;
 	this.nextY = y;
@@ -24,7 +25,6 @@ function Invader(x, y) {
 	// Only used for the early exploders, maybe split it off somewhere else
 	this.earlyExploder = false;
 	this.explodeAt = {};
-
 }
 
 Invader.prototype.setPath = function(path) {
@@ -46,6 +46,17 @@ Invader.prototype.render = function() {
 	ctx.translate(-1* (this.pixX+ gridSize/2), -1* (this.pixY+gridSize/2));
 	ctx.drawImage(this.image, this.pixX, this.pixY);
 	ctx.restore();
+
+	ctx.strokeStyle = "black";
+	ctx.lineWidth = 1;
+	ctx.beginPath();
+	ctx.rect(this.pixX, this.pixY - 10, gridSize, 5);
+	ctx.stroke();
+	
+	ctx.beginPath();
+	ctx.fillStyle = "green";
+	ctx.rect(this.pixX, this.pixY - 10, Math.round(gridSize*(this.hp/this.originalHp)), 5);
+	ctx.fill();
 	
 	/* path debugging
 	ctx.fillStyle = "orange";

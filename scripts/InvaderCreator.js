@@ -13,6 +13,7 @@ InvaderCreator.prototype.update = function() {
 
 		var invader = new Invader(x, y);
 		invader.hp = this.level;
+		invader.originalHp = this.level;
 		
 		if (this.spawned % 6 == 0) {
 			this.level++;
